@@ -98,7 +98,7 @@
             this.Controls.Add(this.drivers_butt);
             this.Controls.Add(this.cars_butt);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "DatabaseCreaton";
             this.ResumeLayout(false);
 
         }

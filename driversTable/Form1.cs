@@ -49,9 +49,12 @@ namespace driversTable
                 Validate();
                 driversBindingSource.EndEdit();
                 // postgres don't use [ ] in it's syntax
-                cb.DataAdapter.InsertCommand.CommandText = cb.DataAdapter.InsertCommand.CommandText.Replace("[", "").Replace("]", "");
-                cb.DataAdapter.UpdateCommand.CommandText = cb.DataAdapter.UpdateCommand.CommandText.Replace("[", "").Replace("]", "");
-                cb.DataAdapter.DeleteCommand.CommandText = cb.DataAdapter.DeleteCommand.CommandText.Replace("[", "").Replace("]", "");
+                if (cb.DataAdapter.InsertCommand != null)
+                    cb.DataAdapter.InsertCommand.CommandText = cb.DataAdapter.InsertCommand.CommandText.Replace("[", "").Replace("]", "");
+                if (cb.DataAdapter.UpdateCommand != null)
+                    cb.DataAdapter.UpdateCommand.CommandText = cb.DataAdapter.UpdateCommand.CommandText.Replace("[", "").Replace("]", "");
+                if (cb.DataAdapter.DeleteCommand != null)
+                    cb.DataAdapter.DeleteCommand.CommandText = cb.DataAdapter.DeleteCommand.CommandText.Replace("[", "").Replace("]", "");
 
                 driversTableAdapter.Update(driversDataSet);
             }

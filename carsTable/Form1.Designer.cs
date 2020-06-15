@@ -255,7 +255,7 @@
             this.Controls.Add(this.bindingNavigator1);
             this.Controls.Add(this.dataGridCars);
             this.Name = "CarsTableForm";
-            this.Text = "Form1";
+            this.Text = "CarsTable";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridCars)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.carstableBindingSource)).EndInit();
