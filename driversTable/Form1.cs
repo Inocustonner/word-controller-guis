@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
+using System.Text.RegularExpressions;
 
 namespace driversTable
 {
@@ -46,7 +47,9 @@ namespace driversTable
         {
             try
             {
-                Validate();
+                if (!Validate())
+                    return;
+
                 driversBindingSource.EndEdit();
                 // postgres don't use [ ] in it's syntax
                 if (cb.DataAdapter.InsertCommand != null)
@@ -61,6 +64,47 @@ namespace driversTable
             catch (Exception err)
             {
                 MessageBox.Show("Ошибка при выполнении операций обновления:\n\t" + err.Message);
+            }
+        }
+
+        private bool fio_valid(string value)
+        {
+            return Regex.IsMatch(value.Trim(), @"[А-Я][а-я]+ [А-Я][а-я]+ [А-Я][а-я]+");
+        }
+
+        private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            
+            string header =
+                dataGridView1.Columns[e.ColumnIndex].HeaderText;
+            switch (header)
+            {
+                case "fio":
+                    {
+                        e.Cancel = !fio_valid(dataGridView1[e.ColumnIndex, e.RowIndex].EditedFormattedValue.ToString());
+                        if (e.Cancel)
+                        {
+                            dataGridView1.Rows[e.RowIndex].ErrorText = "fio колонка должна содержать ФИО в полном формате: Фамилия Имя Отчество";
+                            MessageBox.Show(dataGridView1.Rows[e.RowIndex].ErrorText);
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+
+            if (dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString() == "")
+            {
+                if (e.RowIndex == 0)
+                    dataGridView1.Rows[e.RowIndex].Cells[0].Value = 1;
+                else
+                {
+                    var str = dataGridView1.Rows[e.RowIndex - 1].Cells[0].Value.ToString();
+                    var num = ulong.Parse(str);
+                    dataGridView1.Rows[e.RowIndex].Cells[0].Value = (num + 1).ToString();
+                }
             }
         }
     }

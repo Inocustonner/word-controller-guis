@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
+using System.Text.RegularExpressions;
 
 namespace DatabaseCreaton
 {
@@ -16,7 +17,6 @@ namespace DatabaseCreaton
     {
         string connectionString = "";
         string time_format = "DATETIME";
-        string serial_suffix = "IDENTITY(1,1)";
 
         bool postgres = false;
 
@@ -67,9 +67,21 @@ namespace DatabaseCreaton
                     cmd_db.ExecuteNonQuery();
                 }
             }
-            using (OdbcConnection conn = new OdbcConnection(connectionString + "Database=" + db_name))
+            //change databse in connection string
+            string connStr = connectionString.ToLower();
+            if (connStr.Contains("database"))
+                connStr = Regex.Replace(connectionString, @"(?<=database=)[\w\d_-]+(?=;)", db_name);
+            else
+            {
+                if (!connStr.EndsWith(";"))
+                    connStr += ";";
+                connStr += String.Format("database={0};", db_name);
+            }
+
+            using (OdbcConnection conn = new OdbcConnection(connStr))
             using (OdbcCommand cmd = new OdbcCommand(create_table, conn))
             {
+
                 conn.Open(); cmd.ExecuteNonQuery();
             }
         }
@@ -83,7 +95,7 @@ namespace DatabaseCreaton
                 "id VARCHAR(12) PRIMARY KEY," +
                 "weight INTEGER," +
                 "corr INTEGER," +
-                "gn VARCHAR(12))";
+                "gn VARCHAR(12) UNIQUE NOT NULL)";
             try
             {
                 createDbTable(db_name, create_db, create);
@@ -103,7 +115,7 @@ namespace DatabaseCreaton
             string create_db = "CREATE DATABASE " + db_name + ";";
             string create = "CREATE TABLE " + table_name + "(" +
                  "id INTEGER PRIMARY KEY," +
-                 "fio VARCHAR(12))";
+                 "fio VARCHAR(12) NOT NULL)";
             try
             {
                 createDbTable(db_name, create_db, create);
@@ -123,12 +135,12 @@ namespace DatabaseCreaton
             string sequence_name = "event_id";
             string create_db = "CREATE DATABASE " + db_name + ";";
             string create = "CREATE TABLE " + table_name + "(" +
-                 String.Format("n {0} PRIMARY KEY ,", postgres ? "BIGSERIAL" : "INTEGER IDENTITY(1, 1)") +
-                 "com VARCHAR(6)," +
-                 "id VARCHAR(12)," +
-                 "event_id INTEGER," +
-                 "weight INTEGER," +
-                 "inp_weight INTEGER," +
+                 String.Format("n {0} PRIMARY KEY ,", postgres ? "BIGSERIAL" : "BIGINT IDENTITY(1, 1)") +
+                 "com VARCHAR(6) NOT NULL," +
+                 "id VARCHAR(12) NOT NULL," +
+                 "event_id INTEGER NOT NULL," +
+                 "weight INTEGER NOT NULL," +
+                 "inp_weight INTEGER NOT NULL," +
                  "ts " + time_format + " DEFAULT CURRENT_TIMESTAMP);" +
                  String.Format("CREATE SEQUENCE {0} MINVALUE 0 MAXVALUE 1000 CYCLE;", sequence_name); // create sequence also
             // n isn't serial
@@ -153,7 +165,7 @@ namespace DatabaseCreaton
             string create_db = "CREATE DATABASE " + db_name + ";";
             string create = "CREATE TABLE " + table_name + "(" +
                  "event_id INTEGER PRIMARY KEY," +
-                 "com VARCHAR(6)," +
+                 "com VARCHAR(6) NOT NULL," +
                  "barcode VARCHAR(1024)," +
                  "gn VARCHAR(12)," + 
                  "fio VARCHAR(60)," + 
@@ -190,6 +202,24 @@ namespace DatabaseCreaton
                 return;
             }
             notifySuccess(db_name, table_name);
+        }
+
+        private void clearDebug_Click(object sender, EventArgs _)
+        {
+            try
+            {
+                using (OdbcConnection conn = new OdbcConnection(connectionString + "DATABASE=debugdb;"))
+                using (OdbcCommand cmd = new OdbcCommand("DELETE FROM debug", conn))
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            MessageBox.Show("База данных была успешно очищена");
         }
     }
 }

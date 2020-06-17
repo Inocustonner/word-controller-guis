@@ -33,6 +33,7 @@
             this.store_butt = new System.Windows.Forms.Button();
             this.store_info_butt = new System.Windows.Forms.Button();
             this.debug = new System.Windows.Forms.Button();
+            this.clearDebug = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cars_butt
@@ -87,11 +88,22 @@
             this.debug.UseVisualStyleBackColor = true;
             this.debug.Click += new System.EventHandler(this.debug_Click);
             // 
+            // clearDebug
+            // 
+            this.clearDebug.Location = new System.Drawing.Point(557, 115);
+            this.clearDebug.Name = "clearDebug";
+            this.clearDebug.Size = new System.Drawing.Size(118, 31);
+            this.clearDebug.TabIndex = 5;
+            this.clearDebug.Text = "Очистить Debug";
+            this.clearDebug.UseVisualStyleBackColor = true;
+            this.clearDebug.Click += new System.EventHandler(this.clearDebug_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(702, 134);
+            this.ClientSize = new System.Drawing.Size(702, 158);
+            this.Controls.Add(this.clearDebug);
             this.Controls.Add(this.debug);
             this.Controls.Add(this.store_info_butt);
             this.Controls.Add(this.store_butt);
@@ -110,6 +122,7 @@
         private System.Windows.Forms.Button store_butt;
         private System.Windows.Forms.Button store_info_butt;
         private System.Windows.Forms.Button debug;
+        private System.Windows.Forms.Button clearDebug;
     }
 }
 

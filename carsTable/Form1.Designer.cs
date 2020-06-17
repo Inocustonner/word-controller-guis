@@ -51,6 +51,8 @@
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.cars_tableTableAdapter = new carsTable.carsdbDataSetTableAdapters.cars_tableTableAdapter();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridCars)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.carstableBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.carsdbDataSet)).BeginInit();
@@ -76,6 +78,9 @@
             this.dataGridCars.RowHeadersVisible = false;
             this.dataGridCars.Size = new System.Drawing.Size(780, 394);
             this.dataGridCars.TabIndex = 0;
+            this.dataGridCars.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridCars_CellEndEdit);
+            this.dataGridCars.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridCars_CellValidating);
+            this.dataGridCars.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridCars_RowsAdded);
             // 
             // idDataGridViewTextBoxColumn
             // 
@@ -83,6 +88,7 @@
             this.idDataGridViewTextBoxColumn.DataPropertyName = "id";
             this.idDataGridViewTextBoxColumn.HeaderText = "id";
             this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            this.idDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // weightDataGridViewTextBoxColumn
             // 
@@ -135,7 +141,9 @@
             this.bindingNavigatorSeparator2,
             this.bindingNavigatorAddNewItem,
             this.bindingNavigatorDeleteItem,
-            this.toolStripButton1});
+            this.toolStripButton1,
+            this.toolStripSeparator1,
+            this.toolStripButton2});
             this.bindingNavigator1.Location = new System.Drawing.Point(0, 425);
             this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
@@ -199,6 +207,7 @@
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Position";
             this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 23);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -247,6 +256,21 @@
             // 
             this.cars_tableTableAdapter.ClearBeforeFill = true;
             // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.Text = "toolStripButton2";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // CarsTableForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -274,10 +298,6 @@
         private carsdbDataSet carsdbDataSet;
         private System.Windows.Forms.BindingSource carstableBindingSource;
         private carsdbDataSetTableAdapters.cars_tableTableAdapter cars_tableTableAdapter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn weightDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn corrDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn gnDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingNavigator bindingNavigator1;
         private System.Windows.Forms.ToolStripButton bindingNavigatorAddNewItem;
         private System.Windows.Forms.ToolStripLabel bindingNavigatorCountItem;
@@ -291,6 +311,12 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn weightDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn corrDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn gnDataGridViewTextBoxColumn;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
     }
 }
 
