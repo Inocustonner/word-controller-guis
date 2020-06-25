@@ -50,9 +50,9 @@
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.cars_tableTableAdapter = new carsTable.carsdbDataSetTableAdapters.cars_tableTableAdapter();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.corrButton = new System.Windows.Forms.ToolStripButton();
+            this.cars_tableTableAdapter = new carsTable.carsdbDataSetTableAdapters.cars_tableTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridCars)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.carstableBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.carsdbDataSet)).BeginInit();
@@ -88,7 +88,6 @@
             this.idDataGridViewTextBoxColumn.DataPropertyName = "id";
             this.idDataGridViewTextBoxColumn.HeaderText = "id";
             this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // weightDataGridViewTextBoxColumn
             // 
@@ -143,7 +142,7 @@
             this.bindingNavigatorDeleteItem,
             this.toolStripButton1,
             this.toolStripSeparator1,
-            this.toolStripButton2});
+            this.corrButton});
             this.bindingNavigator1.Location = new System.Drawing.Point(0, 425);
             this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
@@ -252,24 +251,24 @@
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
-            // cars_tableTableAdapter
-            // 
-            this.cars_tableTableAdapter.ClearBeforeFill = true;
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "toolStripButton2";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // corrButton
+            // 
+            this.corrButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.corrButton.Image = ((System.Drawing.Image)(resources.GetObject("corrButton.Image")));
+            this.corrButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.corrButton.Name = "corrButton";
+            this.corrButton.Size = new System.Drawing.Size(23, 22);
+            this.corrButton.Text = "setCorr";
+            this.corrButton.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
+            // cars_tableTableAdapter
+            // 
+            this.cars_tableTableAdapter.ClearBeforeFill = true;
             // 
             // CarsTableForm
             // 
@@ -311,12 +310,12 @@
         private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
         private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton corrButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn weightDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn corrDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn gnDataGridViewTextBoxColumn;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
     }
 }
 

@@ -25,8 +25,12 @@ namespace DatabaseCreaton
             do
             {
                 connectionString = Interaction.InputBox("Enter connection string", "Connetion string prompt", connectionString);
-                if (connectionString == "")
+                if (connectionString.Length <= 0)
+                {
                     Close();
+                    Application.Exit();
+                    return;
+                }
 
                 try
                 {
@@ -206,20 +210,22 @@ namespace DatabaseCreaton
 
         private void clearDebug_Click(object sender, EventArgs _)
         {
+            string cleared;
             try
             {
                 using (OdbcConnection conn = new OdbcConnection(connectionString + "DATABASE=debugdb;"))
                 using (OdbcCommand cmd = new OdbcCommand("DELETE FROM debug", conn))
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    cleared = cmd.ExecuteNonQuery().ToString();
                 }
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+                return;
             }
-            MessageBox.Show("База данных была успешно очищена");
+            MessageBox.Show("Успешно было удалено " + cleared + " записей");
         }
     }
 }

@@ -21,7 +21,15 @@ namespace driversTable
         public Form1()
         {
             connectionString = Interaction.InputBox("Enter connection string", "Connetion string prompt", connectionString);
-            InitializeComponent();
+            if (connectionString.Length > 0)
+            {
+                InitializeComponent();
+            }
+            else
+            {
+                Close();
+                Application.Exit();
+            }
         }
 
         void populateTable()

@@ -32,8 +32,16 @@ namespace carsTable
         public CarsTableForm()
         {
             connectionString = Interaction.InputBox("Enter connection string", "Connetion string prompt", connectionString);
-            InitializeComponent();
-            bindingNavigator1.CausesValidation = false;
+            if (connectionString.Length > 0)
+            {
+                InitializeComponent();
+                bindingNavigator1.CausesValidation = false;
+            }
+            else
+            {
+                Close();
+                Application.Exit();
+            }
         }
 
         void gridRefresh()
@@ -64,7 +72,10 @@ namespace carsTable
             string password = "C0L7B7Dm3n";
             var pass = Interaction.InputBox("Enter admin password", "Admin pass");
             if (pass != password)
+            {
                 dataGridCars.Columns[2].Visible = false;
+                corrButton.Visible = false;
+            }
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -178,12 +189,12 @@ namespace carsTable
             if (dataGridCars.Rows[e.RowIndex].Cells[0].Value.ToString() == "")
             {
                 if (e.RowIndex == 0)
-                    dataGridCars.Rows[e.RowIndex].Cells[0].Value = 1;
+                    dataGridCars.Rows[e.RowIndex].Cells[0].Value = 1.ToString();
                 else
                 {
                     var str = dataGridCars.Rows[e.RowIndex - 1].Cells[0].Value.ToString();
-                    var num = ulong.Parse(str, NumberStyles.HexNumber);
-                    dataGridCars.Rows[e.RowIndex].Cells[0].Value = (num + 1).ToString("X12");
+                    var num = ulong.Parse(str);
+                    dataGridCars.Rows[e.RowIndex].Cells[0].Value = (num + 1).ToString();
                 }
             }
         }
@@ -208,30 +219,30 @@ namespace carsTable
         }
     }
 
-    class RowComparer : System.Collections.IComparer
-    {
-        private static int sortOrderModifier = 1;
+    //class RowComparer : System.Collections.IComparer
+    //{
+    //    private static int sortOrderModifier = 1;
 
-        public RowComparer(SortOrder sortOrder)
-        {
-            if (sortOrder == SortOrder.Descending)
-            {
-                sortOrderModifier = -1;
-            }
-            else if (sortOrder == SortOrder.Ascending)
-            {
-                sortOrderModifier = 1;
-            }
-        }
+    //    public RowComparer(SortOrder sortOrder)
+    //    {
+    //        if (sortOrder == SortOrder.Descending)
+    //        {
+    //            sortOrderModifier = -1;
+    //        }
+    //        else if (sortOrder == SortOrder.Ascending)
+    //        {
+    //            sortOrderModifier = 1;
+    //        }
+    //    }
 
-        public int Compare(object x, object y)
-        {
-            DataGridViewRow DataGridViewRow1 = (DataGridViewRow)x;
-            DataGridViewRow DataGridViewRow2 = (DataGridViewRow)y;
+    //    public int Compare(object x, object y)
+    //    {
+    //        DataGridViewRow DataGridViewRow1 = (DataGridViewRow)x;
+    //        DataGridViewRow DataGridViewRow2 = (DataGridViewRow)y;
 
-            bool cmp = ulong.Parse(DataGridViewRow1.Cells[0].Value.ToString(), NumberStyles.HexNumber) < ulong.Parse(DataGridViewRow2.Cells[0].Value.ToString(), NumberStyles.HexNumber);
-            int CompareResult = cmp ? 1 : -1;
-            return CompareResult * sortOrderModifier;
-        }
-    }
+    //        bool cmp = ulong.Parse(DataGridViewRow1.Cells[0].Value.ToString(), NumberStyles.HexNumber) < ulong.Parse(DataGridViewRow2.Cells[0].Value.ToString(), NumberStyles.HexNumber);
+    //        int CompareResult = cmp ? 1 : -1;
+    //        return CompareResult * sortOrderModifier;
+    //    }
+    //}
 }
