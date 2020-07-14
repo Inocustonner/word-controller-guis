@@ -18,6 +18,19 @@ namespace carsTable
 {
     public partial class CarsTableForm : Form
     {
+        struct Vector2
+        {
+            public Vector2(int icol, int irow)
+            {
+                col = icol;
+                row = irow;
+            }
+            public int col;
+            public int row;
+        }
+
+        List<Vector2> invalidCells = new List<Vector2>();
+
         enum ValidationError
         {
             NOT_UNIQUE,
@@ -26,7 +39,7 @@ namespace carsTable
             NONE,
         }
 
-        string connectionString = @"Driver={PostgreSQL UNICODE};Server=localhost;Port=5432;Database=carsdb;Uid=postgres;Pwd=root;";
+        string connectionString = @"Driver={PostgreSQL UNICODE};Server=localhost;Port=5432;Database=w_ext;Uid=postgres;Pwd=root;";
 
         OdbcCommandBuilder cb;
         public CarsTableForm()
@@ -104,17 +117,16 @@ namespace carsTable
 
         private bool id_valid_format(string value)
         {
-            int _;
-            return int.TryParse(value, NumberStyles.HexNumber, null, out _);
+            return Regex.IsMatch(value.Trim(), @"^[0-9]{8}");
         }
 
         private bool is_col_exists(string col, string value, bool is_char = true)
         {
             using (var conn = new OdbcConnection(connectionString))
             {
-
+                string table_name = "cars";
                 conn.Open();
-                var cmd = new OdbcCommand(String.Format("SELECT COUNT({0}) FROM cars_table WHERE {0}={1}", col, is_char ? "'" + value + "'" : value ), conn) ;
+                var cmd = new OdbcCommand(String.Format("SELECT COUNT({0}) FROM {2} WHERE {0}={1}", col, is_char ? "'" + value + "'" : value, table_name), conn) ;
                 return cmd.ExecuteScalar().ToString() != "0";
             }
         }
@@ -153,7 +165,7 @@ namespace carsTable
                 case ValidationError.INVALID_FORMAT:
                     {
                         if (is_id)
-                            MessageBox.Show(String.Format("{0} колонка должна содержать только численные 16тиричные значения", col));
+                            MessageBox.Show(String.Format("{0} колонка должна содержать только численные 10тиричные значения и быть длинной в 8 символов", col));
                         else
                             MessageBox.Show(String.Format("{0} колонка должна содержать правильный формат гос. номера с только заглавными буквами", col));
                         return true;
@@ -176,6 +188,16 @@ namespace carsTable
                 dataGridCars.Columns[e.ColumnIndex].HeaderText;
             if (header == "id" || header == "gn")
                 e.Cancel = validate_col_gn_id(header, dataGridCars[e.ColumnIndex, e.RowIndex].EditedFormattedValue.ToString(), dataGridCars[e.ColumnIndex, e.RowIndex].Value.ToString());
+
+            Vector2 cellVector = new Vector2(e.ColumnIndex, e.RowIndex);
+            if (e.Cancel)
+            {
+                invalidCells.Add(cellVector);
+            }
+            else
+            {
+                invalidCells.Remove(cellVector);
+            }
         }
 
         private void dataGridCars_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -185,16 +207,15 @@ namespace carsTable
 
         private void dataGridCars_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            //to hex12 + 1
             if (dataGridCars.Rows[e.RowIndex].Cells[0].Value.ToString() == "")
             {
                 if (e.RowIndex == 0)
-                    dataGridCars.Rows[e.RowIndex].Cells[0].Value = 1.ToString();
+                    dataGridCars.Rows[e.RowIndex].Cells[0].Value = String.Format("{0, 0:D8}", 1);
                 else
                 {
                     var str = dataGridCars.Rows[e.RowIndex - 1].Cells[0].Value.ToString();
                     var num = ulong.Parse(str);
-                    dataGridCars.Rows[e.RowIndex].Cells[0].Value = (num + 1).ToString();
+                    dataGridCars.Rows[e.RowIndex].Cells[0].Value = String.Format("{0, 0:D8}", (num + 1));
                 }
             }
         }

@@ -15,7 +15,7 @@ namespace driversTable
 {
     public partial class Form1 : Form
     {
-        string connectionString = @"Driver={PostgreSQL UNICODE};Server=localhost;Port=5432;Database=drivers;Uid=postgres;Pwd=root;";
+        string connectionString = @"Driver={PostgreSQL UNICODE};Server=localhost;Port=5432;Database=w_ext;Uid=postgres;Pwd=root;";
         OdbcCommandBuilder cb;
 
         public Form1()
@@ -106,12 +106,12 @@ namespace driversTable
             if (dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString() == "")
             {
                 if (e.RowIndex == 0)
-                    dataGridView1.Rows[e.RowIndex].Cells[0].Value = 1;
+                    dataGridView1.Rows[e.RowIndex].Cells[0].Value = String.Format("{0, 0:D8}", 1);
                 else
                 {
                     var str = dataGridView1.Rows[e.RowIndex - 1].Cells[0].Value.ToString();
                     var num = ulong.Parse(str);
-                    dataGridView1.Rows[e.RowIndex].Cells[0].Value = (num + 1).ToString();
+                    dataGridView1.Rows[e.RowIndex].Cells[0].Value = String.Format("{0, 0:D8}", (num + 1));
                 }
             }
         }
